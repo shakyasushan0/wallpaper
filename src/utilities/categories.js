@@ -55,7 +55,7 @@ export const categories = [
   },
   {
     id: '999',
-    category: 'Patterns & Textures',
+    category: 'Textures',
     img: require('../assets/images/textures.jpg'),
     slug: 'textures-patterns',
   },

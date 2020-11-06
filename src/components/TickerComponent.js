@@ -1,14 +1,19 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Animated, StyleSheet} from 'react-native';
 import {TickerContainer, Ticker} from '../styles/ExploreScreenStyle';
 import {categories} from '../utilities/categories';
 import {useTheme} from 'react-native-paper';
-
-const TickerComponent = () => {
+const TICKER_HEIGHT = 35;
+const TickerComponent = ({scrollX, width}) => {
   const {colors} = useTheme();
+  const inputRange = [-width, 0, width];
+  const translateY = scrollX.interpolate({
+    inputRange,
+    outputRange: [TICKER_HEIGHT, 0, -TICKER_HEIGHT],
+  });
   return (
     <TickerContainer>
-      <View>
+      <Animated.View style={{transform: [{translateY}]}}>
         {categories.map(({category}, index) => {
           return (
             <Ticker color={colors.text} key={index}>
@@ -16,7 +21,7 @@ const TickerComponent = () => {
             </Ticker>
           );
         })}
-      </View>
+      </Animated.View>
     </TickerContainer>
   );
 };
