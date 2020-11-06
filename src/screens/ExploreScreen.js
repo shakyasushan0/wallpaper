@@ -16,20 +16,37 @@ const ExploreScreen = (props) => {
       index * width,
       (index + 1) * width,
     ];
+    const inputRangeOpacity = [
+      (index - 0.5) * width,
+      index * width,
+      (index + 0.5) * width,
+    ];
+    const scale = scrollX.interpolate({
+      inputRange,
+      outputRange: [0, 1, 0],
+    });
+    const opacity = scrollX.interpolate({
+      inputRange: inputRangeOpacity,
+      outputRange: [0, 1, 0],
+    });
     return (
       <View style={[{width, height}, cardContainer]}>
-        <Card>
-          <Card.Title
-            title={item.category}
-            subtitle={
-              'Style your device with beautiful' + item.category + 'wallpapers'
-            }
-          />
-          <Card.Cover source={item.img} />
-          <Card.Actions>
-            <Button mode="contained">View Wallpapers</Button>
-          </Card.Actions>
-        </Card>
+        <Animated.View style={{transform: [{scale}], opacity}}>
+          <Card>
+            <Card.Title
+              title={item.category}
+              subtitle={
+                'Style your device with beautiful' +
+                item.category +
+                'wallpapers'
+              }
+            />
+            <Card.Cover source={item.img} />
+            <Card.Actions>
+              <Button mode="contained">View Wallpapers</Button>
+            </Card.Actions>
+          </Card>
+        </Animated.View>
       </View>
     );
   };
