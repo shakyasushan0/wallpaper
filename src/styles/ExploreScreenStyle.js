@@ -19,10 +19,8 @@ export const TickerContainer = styled.View`
   left: 15px;
   height: 35px;
 `;
-export const CategoryContainer = styled.View`
-  flex: 1;
-  padding: 10px;
-  justify-content: center;
-  width: ${(props) => props.width}px;
-  height: ${(props) => props.height}px;
-`;
+export const cardContainer = {
+  flex: 1,
+  justifyContent: 'center',
+  padding: 10,
+};
