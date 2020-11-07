@@ -83,15 +83,16 @@ const WallpaperScreen = ({route}) => {
           colors={colors}
           bottom={bottom}
           shareWallpaper={shareWallpaper}
+          item={item}
         />
       </View>
     );
   };
-  //
-  const shareWallpaper = async () => {
+  //share
+  const shareWallpaper = async (img) => {
     try {
       await Share.share({
-        message: 'Checkout this wallpaper ',
+        message: 'Checkout this cool wallpaper ' + img,
       });
     } catch (error) {
       console.log(error);
