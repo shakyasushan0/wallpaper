@@ -6,7 +6,11 @@ import {
   Image,
   Animated,
   Share,
+  PermissionsAndroid,
+  Platform,
+  ToastAndroid,
 } from 'react-native';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import {
   Container,
@@ -84,6 +88,7 @@ const WallpaperScreen = ({route}) => {
           bottom={bottom}
           shareWallpaper={shareWallpaper}
           item={item}
+          downloadImage={checkPermission}
         />
       </View>
     );
@@ -98,6 +103,71 @@ const WallpaperScreen = ({route}) => {
       console.log(error);
     }
   };
+
+  //download image
+  const checkPermission = async (img) => {
+    if (Platform.OS === 'ios') {
+      downloadImage(img);
+    } else {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: 'Storage Permission Required',
+            message: 'App needs access to your storage to save wallpapers',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          ToastAndroid.show('Your download has started', ToastAndroid.SHORT);
+          downloadImage(img);
+        } else {
+          // If permission denied then show alert
+          ToastAndroid.show('Permission denied!', ToastAndroid.SHORT);
+        }
+      } catch (err) {
+        // To handle permission related exception
+        console.warn(err);
+      }
+    }
+  };
+  const downloadImage = (img) => {
+    // Main function to download the image
+
+    // To add the time suffix in filename
+    let date = new Date();
+    // Image URL which we want to download
+    let image_URL = img;
+    // Getting the extention of the file
+    let ext = '.jpg';
+
+    // Get config and fs from RNFetchBlob
+    // config: To pass the downloading related options
+    // fs: Directory path where we want our image to download
+    const {config, fs} = RNFetchBlob;
+    let PictureDir = fs.dirs.PictureDir;
+    let options = {
+      fileCache: true,
+      addAndroidDownloads: {
+        // Related to the Android only
+        useDownloadManager: true,
+        notification: true,
+        path:
+          PictureDir +
+          '/image_' +
+          Math.floor(date.getTime() + date.getSeconds() / 2) +
+          ext,
+        description: 'Image',
+      },
+    };
+    config(options)
+      .fetch('GET', image_URL)
+      .then((res) => {
+        // Showing alert after successful downloading
+        console.log('res -> ', JSON.stringify(res));
+        ToastAndroid.show('Image Downloaded Successfully.', ToastAndroid.SHORT);
+      });
+  };
+
   return (
     <Container color={colors.background}>
       {data.length === 0 ? (

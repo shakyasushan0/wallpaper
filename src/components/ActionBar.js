@@ -3,7 +3,7 @@ import {Animated, TouchableOpacity} from 'react-native';
 import {actionBar} from '../styles/WallpaperScreenStyle';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const ActionBar = ({bottom, colors, shareWallpaper, item}) => (
+const ActionBar = ({bottom, colors, shareWallpaper, item, downloadImage}) => (
   <Animated.View
     style={[actionBar, {backgroundColor: colors.background, bottom}]}>
     <TouchableOpacity>
@@ -12,7 +12,7 @@ const ActionBar = ({bottom, colors, shareWallpaper, item}) => (
     <TouchableOpacity onPress={() => shareWallpaper(item)}>
       <Icon name="share" size={36} color={colors.text} />
     </TouchableOpacity>
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => downloadImage(item)}>
       <Icon name="save" size={36} color={colors.text} />
     </TouchableOpacity>
     <TouchableOpacity>
