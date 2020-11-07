@@ -9,7 +9,7 @@ export const categories = [
     id: '111',
     category: 'Arts',
     img: require('../assets/images/Arts.jpg'),
-    slug: 'arts',
+    slug: 'arts-culture',
   },
   {
     id: '222',
@@ -45,7 +45,7 @@ export const categories = [
     id: '777',
     category: 'Sports',
     img: require('../assets/images/sports.jpg'),
-    slug: 'atheletics',
+    slug: 'athletics',
   },
   {
     id: '888',

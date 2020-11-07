@@ -45,7 +45,11 @@ const ExploreScreen = (props) => {
             <Card.Actions>
               <Button
                 mode="contained"
-                onPress={() => props.navigation.navigate('wallpaper')}>
+                onPress={() =>
+                  props.navigation.navigate('wallpaper', {
+                    slug: item.slug,
+                  })
+                }>
                 View Wallpapers
               </Button>
             </Card.Actions>
