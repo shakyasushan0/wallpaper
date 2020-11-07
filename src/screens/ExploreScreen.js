@@ -43,7 +43,11 @@ const ExploreScreen = (props) => {
             />
             <Card.Cover source={item.img} />
             <Card.Actions>
-              <Button mode="contained">View Wallpapers</Button>
+              <Button
+                mode="contained"
+                onPress={() => props.navigation.navigate('wallpaper')}>
+                View Wallpapers
+              </Button>
             </Card.Actions>
           </Card>
         </Animated.View>
