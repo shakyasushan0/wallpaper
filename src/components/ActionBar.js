@@ -6,7 +6,13 @@ import {useFavorite} from '../context/FavoriteContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ActionBar = ({bottom, colors, shareWallpaper, item, downloadImage}) => {
-  const {favorites, changed, setChanged, addFavorites} = useFavorite();
+  const {
+    favorites,
+    changed,
+    setChanged,
+    addFavorites,
+    removeFavorite,
+  } = useFavorite();
   const clearAll = async () => {
     try {
       await AsyncStorage.clear();
@@ -22,7 +28,7 @@ const ActionBar = ({bottom, colors, shareWallpaper, item, downloadImage}) => {
       style={[actionBar, {backgroundColor: colors.background, bottom}]}>
       <TouchableOpacity
         onPress={() => {
-          addFavorites(item);
+          favorites.includes(item) ? removeFavorite(item) : addFavorites(item);
           setChanged(!changed);
         }}>
         <Icon

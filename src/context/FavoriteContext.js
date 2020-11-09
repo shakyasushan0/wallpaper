@@ -27,11 +27,17 @@ export const FavoriteProvider = ({children}) => {
     );
     setFavorites([...favorites, fav]);
   };
+  const removeFavorite = async (item) => {
+    const index = favorites.indexOf(item);
+    favorites.splice(index, 1);
+    await AsyncStorage.setItem('@favorites', JSON.stringify(favorites));
+  };
   const value = {
     favorites,
     addFavorites,
     changed,
     setChanged,
+    removeFavorite,
   };
   return (
     <FavoriteContext.Provider value={value}>
