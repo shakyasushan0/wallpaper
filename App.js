@@ -9,15 +9,18 @@
 import React from 'react';
 import {StatusBar} from 'react-native';
 import {ThemeProvider} from './src/context/ThemeContext';
+import {FavoriteProvider} from './src/context/FavoriteContext';
 import RootNavigator from './src/navigators/RootNavigator';
 
 const App = () => {
   return (
     <>
-      <ThemeProvider>
-        <StatusBar hidden />
-        <RootNavigator />
-      </ThemeProvider>
+      <FavoriteProvider>
+        <ThemeProvider>
+          <StatusBar hidden />
+          <RootNavigator />
+        </ThemeProvider>
+      </FavoriteProvider>
     </>
   );
 };

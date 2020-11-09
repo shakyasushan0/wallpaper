@@ -20,10 +20,12 @@ import {
 import {useTheme} from 'react-native-paper';
 import ActionBar from '../components/ActionBar';
 import {unsplashApiKey} from '../utilities/keys';
+
 import Loading from './LoadingScreen';
 
 const WallpaperScreen = ({route}) => {
   const {colors} = useTheme();
+
   const {slug} = route.params;
   const [isImageFocused, setisImageFocused] = useState(false);
   const [page, setPage] = useState(1);
