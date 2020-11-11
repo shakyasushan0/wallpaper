@@ -1,12 +1,26 @@
 import React, {useContext} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, FlatList, StyleSheet} from 'react-native';
 import {Switch, useTheme} from 'react-native-paper';
 import {ThemeContext} from '../context/ThemeContext';
 import {Container, Header, ThemeText} from '../styles/FavoriteScreenStyle';
+import FastImage from 'react-native-fast-image';
+import {useFavorite} from '../context/FavoriteContext';
 
 const FavoriteScreen = (props) => {
   const {darkTheme, setDarkTheme} = useContext(ThemeContext);
   const {colors} = useTheme();
+  const {favorites} = useFavorite();
+
+  const renderFavorites = ({item}) => {
+    return (
+      <View style={{flex: 1, margin: 5}}>
+        <FastImage
+          style={{width: '100%', height: 250, borderRadius: 15}}
+          source={{uri: item, priority: FastImage.priority.normal}}
+        />
+      </View>
+    );
+  };
   return (
     <Container color={colors.background}>
       <Header>
@@ -16,6 +30,13 @@ const FavoriteScreen = (props) => {
           onValueChange={() => setDarkTheme(!darkTheme)}
         />
       </Header>
+      <FlatList
+        data={favorites}
+        renderItem={renderFavorites}
+        numColumns={2}
+        scrollEventThrottle={16}
+        keyExtractor={(item, index) => index.toString()}
+      />
     </Container>
   );
 };
@@ -24,7 +45,8 @@ export default FavoriteScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  imageContainer: {
+    flex: 1,
   },
 });
