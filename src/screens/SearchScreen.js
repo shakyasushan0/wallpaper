@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, FlatList, StyleSheet} from 'react-native';
+import {View, FlatList, TouchableOpacity} from 'react-native';
 import {useTheme, Searchbar, Button} from 'react-native-paper';
 import SearchLoading from './SearchLoadingScreen';
 import {Container, Header} from '../styles/SearchScreenStyle';
@@ -9,14 +9,14 @@ import FastImage from 'react-native-fast-image';
 const SearchScreen = (props) => {
   const {colors} = useTheme();
   const [query, setQuery] = useState('');
-  const [oldQuery, setOldQuery] = useState('');
+
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [endReached, setEndReached] = useState(false);
-  const [page, setPage] = useState(1);
-  const [loadingMore, setLoadingMore] = useState(false);
+  const [page, setPage] = useState(2);
+
   const searchWallpaper = () => {
-    setPage(1);
+    setPage(2);
     setLoading(true);
     setEndReached(false);
     if (query.length !== 0) {
@@ -57,10 +57,13 @@ const SearchScreen = (props) => {
   const renderWallpapers = ({item}) => {
     return (
       <View style={{flex: 1, margin: 5}}>
-        <FastImage
-          style={{width: '100%', height: 250, borderRadius: 15}}
-          source={{uri: item, priority: FastImage.priority.normal}}
-        />
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate('single', {img: item})}>
+          <FastImage
+            style={{width: '100%', height: 250, borderRadius: 15}}
+            source={{uri: item, priority: FastImage.priority.normal}}
+          />
+        </TouchableOpacity>
       </View>
     );
   };
