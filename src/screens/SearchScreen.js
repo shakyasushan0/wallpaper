@@ -9,12 +9,34 @@ import FastImage from 'react-native-fast-image';
 const SearchScreen = (props) => {
   const {colors} = useTheme();
   const [query, setQuery] = useState('');
+  const [oldQuery, setOldQuery] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [endReached, setEndReached] = useState(false);
   const [page, setPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
   const searchWallpaper = () => {
+    setPage(1);
     setLoading(true);
+    setEndReached(false);
+    if (query.length !== 0) {
+      fetch(
+        `https://api.unsplash.com/search/photos?query=${query.toLowerCase()}&client_id=${unsplashApiKey}`,
+      )
+        .then((res) => res.json())
+        .then((result) => {
+          const img = result.results.map((rslt) => rslt.urls.regular);
+          setResults(img);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    }
+  };
+  const loadMoreWallpapers = () => {
+    setPage(page + 1);
     setEndReached(false);
     if (query.length !== 0) {
       fetch(
@@ -23,7 +45,7 @@ const SearchScreen = (props) => {
         .then((res) => res.json())
         .then((result) => {
           const img = result.results.map((rslt) => rslt.urls.regular);
-          setResults(img);
+          setResults([...results, ...img]);
           setLoading(false);
         })
         .catch((err) => {
@@ -48,7 +70,9 @@ const SearchScreen = (props) => {
         <Searchbar
           placeholder="Search ..."
           value={query}
-          onChangeText={(text) => setQuery(text)}
+          onChangeText={(text) => {
+            setQuery(text);
+          }}
           onSubmitEditing={searchWallpaper}
         />
       </Header>
@@ -64,14 +88,8 @@ const SearchScreen = (props) => {
           onEndReached={() => setEndReached(true)}
         />
       )}
-      {endReached && <Button>Load More</Button>}
+      {endReached && <Button onPress={loadMoreWallpapers}>Load More</Button>}
     </Container>
   );
 };
 export default SearchScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
