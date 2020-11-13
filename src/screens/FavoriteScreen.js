@@ -5,6 +5,7 @@ import {ThemeContext} from '../context/ThemeContext';
 import {Container, Header, ThemeText} from '../styles/FavoriteScreenStyle';
 import FastImage from 'react-native-fast-image';
 import {useFavorite} from '../context/FavoriteContext';
+import EmptyScreen from './EmptyScreen';
 
 const FavoriteScreen = (props) => {
   const {darkTheme, setDarkTheme, setThemeValue} = useContext(ThemeContext);
@@ -37,13 +38,17 @@ const FavoriteScreen = (props) => {
           }}
         />
       </Header>
-      <FlatList
-        data={favorites}
-        renderItem={renderFavorites}
-        numColumns={2}
-        scrollEventThrottle={16}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      {favorites.length === 0 ? (
+        <EmptyScreen />
+      ) : (
+        <FlatList
+          data={favorites}
+          renderItem={renderFavorites}
+          numColumns={2}
+          scrollEventThrottle={16}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      )}
     </Container>
   );
 };

@@ -3,7 +3,6 @@ import {Animated, TouchableOpacity} from 'react-native';
 import {actionBar} from '../styles/WallpaperScreenStyle';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useFavorite} from '../context/FavoriteContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ActionBar = ({bottom, colors, shareWallpaper, item, downloadImage}) => {
   const {
@@ -13,15 +12,6 @@ const ActionBar = ({bottom, colors, shareWallpaper, item, downloadImage}) => {
     addFavorites,
     removeFavorite,
   } = useFavorite();
-  const clearAll = async () => {
-    try {
-      await AsyncStorage.clear();
-    } catch (e) {
-      // clear error
-    }
-
-    console.log('Done.');
-  };
 
   return (
     <Animated.View
@@ -43,9 +33,9 @@ const ActionBar = ({bottom, colors, shareWallpaper, item, downloadImage}) => {
       <TouchableOpacity onPress={() => downloadImage(item)}>
         <Icon name="save" size={36} color={colors.text} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => console.log(favorites)}>
+      {/* <TouchableOpacity onPress={() => console.log(favorites)}>
         <Icon name="wallpaper" size={36} color={colors.text} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </Animated.View>
   );
 };
