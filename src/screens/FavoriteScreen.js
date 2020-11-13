@@ -7,7 +7,7 @@ import FastImage from 'react-native-fast-image';
 import {useFavorite} from '../context/FavoriteContext';
 
 const FavoriteScreen = (props) => {
-  const {darkTheme, setDarkTheme} = useContext(ThemeContext);
+  const {darkTheme, setDarkTheme, setThemeValue} = useContext(ThemeContext);
   const {colors} = useTheme();
   const {favorites} = useFavorite();
 
@@ -30,7 +30,11 @@ const FavoriteScreen = (props) => {
         <ThemeText>Dark Theme</ThemeText>
         <Switch
           value={darkTheme}
-          onValueChange={() => setDarkTheme(!darkTheme)}
+          onValueChange={() => {
+            const newValue = !darkTheme;
+            setDarkTheme(newValue);
+            setThemeValue(newValue);
+          }}
         />
       </Header>
       <FlatList

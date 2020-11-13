@@ -11,7 +11,7 @@ import {
   ToastAndroid,
 } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
-
+import FastImage from 'react-native-fast-image';
 import {
   Container,
   wallpaperContainer,
@@ -49,16 +49,17 @@ const WallpaperScreen = ({route}) => {
         .catch((err) => console.log(err));
     } else {
       fetch(
-        `https://api.unsplash.com/topics/${slug}/photos?page=${page}&client_id=${unsplashApiKey}`,
+        `https://api.unsplash.com/topics/${slug}/photos?per_page=30&client_id=${unsplashApiKey}`,
       )
         .then((res) => res.json())
         .then((result) => {
           const img = result.map((rslt) => rslt.urls.regular);
-          data.length === 0 ? setData(img) : setData([...data, ...img]);
+          // data.length === 0 ? setData(img) : setData([...data, ...img]);
+          setData(img);
         })
         .catch((err) => console.log(err));
     }
-  }, [page]);
+  }, []);
   useEffect(() => {
     if (isImageFocused) {
       Animated.spring(scale, {
@@ -81,7 +82,10 @@ const WallpaperScreen = ({route}) => {
         <TouchableWithoutFeedback onPress={() => showActionBar()}>
           <Animated.View style={{flex: 1, transform: [{scale}]}}>
             <View style={wallpaperContainer}>
-              <Image source={{uri: item}} style={wallpaper} />
+              <FastImage
+                source={{uri: item, priority: FastImage.priority.normal}}
+                style={wallpaper}
+              />
             </View>
           </Animated.View>
         </TouchableWithoutFeedback>
@@ -184,7 +188,7 @@ const WallpaperScreen = ({route}) => {
           keyExtractor={(item, index) => index.toString()}
           showsHorizontalScrollIndicator={false}
           scrollEventThrottle={16}
-          onEndReached={() => setPage(page + 1)}
+          //onEndReached={() => setPage(page + 1)}
         />
       )}
     </Container>
